@@ -227,27 +227,21 @@ _ultimo_enviado: set[str] = set()
 
 
 def job_ofertas():
-    log.info("Buscando ofertas...")
-    keyword = random.choice(SHOPEE_KEYWORDS)
-    log.info(f"Keyword: {keyword}")
+    log.info("Postando vitrine Shopee...")
 
-    ofertas = buscar_ofertas_shopee(keyword, limite=8)
+    bot.send_message(
+        chat_id=CHANNEL_ID,
+        text=(
+            "🔥 *OFERTAS IMPERDÍVEIS NA SHOPEE*\n\n"
+            "🛍️ Roupas, tênis, perfumes e muito mais com desconto!\n\n"
+            "👉 [CONFIRA TODAS AS OFERTAS AQUI](https://collshp.com/v1ctorio891)\n\n"
+            "⚡ Atualizado diariamente\n"
+            "📲 Não perca!"
+        ),
+        parse_mode=ParseMode.MARKDOWN
+    )
 
-    novas = [o for o in ofertas if o["link"] not in _ultimo_enviado]
-    if not novas:
-        log.info("Nenhuma oferta nova encontrada.")
-        return
-
-    # Escolhe a melhor oferta (maior desconto)
-    melhor = sorted(novas, key=lambda x: x["desconto"], reverse=True)[0]
-    enviar_oferta(melhor)
-    _ultimo_enviado.add(melhor["link"])
-
-    # Evita cache infinito
-    if len(_ultimo_enviado) > 500:
-        _ultimo_enviado.clear()
-
-
+  
 def mensagem_boas_vindas():
     try:
         bot.send_message(
