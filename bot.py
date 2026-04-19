@@ -7,6 +7,7 @@ import schedule
 from datetime import datetime
 from telegram import Bot
 from telegram.constants import ParseMode
+import asyncio
 
 logging.basicConfig(
     level=logging.INFO,
@@ -226,7 +227,7 @@ def enviar_oferta(oferta: dict):
 _ultimo_enviado: set[str] = set()
 
 
-def job_ofertas():
+async def job_ofertas():
     log.info("Postando vitrine Shopee...")
 
     bot.send_message(
